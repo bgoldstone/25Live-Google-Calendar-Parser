@@ -6,10 +6,10 @@
  * Only Change calendarID and/or append to icals Array.
  */
 var ss = SpreadsheetApp.getActive().getActiveSheet()
+ //uses Calendar ID from Integrate Calendar Setting
 var calendarID = String(ss.getRange("F2").getValue())
 function myFunction() {
   //All separated by a comma (Includes Red Doors, Event Space, 113) MUST BE A LOCATION
-  //uses Calendar ID from Integrate Calendar Setting
   var now = new Date()
   //If Midnight delete all events.
   if(now.getHours() == 0){
@@ -35,6 +35,7 @@ function myFunction() {
     return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
   }
   Date.prototype.dst = function() {
+  //For EST and EDT
   if(this.getTimezoneOffset() < this.stdTimezoneOffset()){
     return " -0400"
   }
@@ -61,7 +62,7 @@ function myFunction() {
       if(event == 0){
         continue
       }
-
+      var subdirectoryFor25Live = ""
       //gets info for each event
       lines = currentCalendar[event].split("\n")
       for (var line in lines){
@@ -71,7 +72,7 @@ function myFunction() {
 
         //Gets event id for event link
         if(line == 0){
-         eventLink = "https://25live.collegenet.com/pro/muhlenberg#!/home/event/" + (lines[line].substring((lines[line].indexOf("=")+1),lines[line].indexOf(":")))+"/details"
+         eventLink = "https://25live.collegenet.com/pro/" + subdirectoryFor25Live + "#!/home/event/" + (lines[line].substring((lines[line].indexOf("=")+1),lines[line].indexOf(":")))+"/details"
         }
         
         //Gets Event type
