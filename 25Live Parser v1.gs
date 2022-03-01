@@ -3,29 +3,21 @@
  * Created By: Benjamin Goldstone '24
  * Revision Date: 2/27/2022
  * A program to parse Event Location ical files from 25Live and append them to a specified Google Calendar.
+ * Might also work on other ical files
  * Only Change calendarID and/or append to icals Array.
  */
-var calendarID = "c_h0s33079kg1gi81p6gckcoobeg@group.calendar.google.com"
+//Calendar URL Here
+//uses Calendar ID from Integrate Calendar Setting
+var calendarID = ""
 function myFunction() {
-  //All separated by a comma (Includes Red Doors, Event Space, 113) MUST BE A LOCATION
-  //uses Calendar ID from Integrate Calendar Setting
   var now = new Date()
   //If Midnight delete all events.
   if(now.getHours() == 0){
     deleteEvents()
   } else {
   var icals = Array()
-  //Red Doors
-  icals.push("https://25live.collegenet.com/25live/data/muhlenberg/run/rm_reservations.ics?caller=pro&space_id=42&start_dt=-30&end_dt=+180&options=standard")
-  //Event Space
-  icals.push("https://25live.collegenet.com/25live/data/muhlenberg/run/rm_reservations.ics?caller=pro&space_id=315&start_dt=-30&end_dt=+180&options=standard")
-  //113
-  icals.push("https://25live.collegenet.com/25live/data/muhlenberg/run/rm_reservations.ics?caller=pro&space_id=39&start_dt=-30&end_dt=+180&options=standard")
-  //111-113
-  icals.push("https://25live.collegenet.com/25live/data/muhlenberg/run/rm_reservations.ics?caller=pro&space_id=41&start_dt=-30&end_dt=+180&options=standard")
-  //Parents' Plaza
-  icals.push("https://25live.collegenet.com/25live/data/muhlenberg/run/rm_reservations.ics?caller=pro&space_id=52&start_dt=-30&end_dt=+180&options=standard")
- 
+  //Ical Links here
+  icals.push("")
   //Detects Daylight Savings Time
   Date.prototype.stdTimezoneOffset = function() 
   {
@@ -34,6 +26,7 @@ function myFunction() {
     return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
   }
   Date.prototype.dst = function() {
+  //For EST & EDT
   if(this.getTimezoneOffset() < this.stdTimezoneOffset()){
     return " -0400"
   }
@@ -63,14 +56,15 @@ function myFunction() {
 
       //gets info for each event
       lines = currentCalendar[event].split("\n")
+      var subdirectory25Live = ""
       for (var line in lines){
         if(lines[line].startsWith("X-R25-TITLE")){
           eventTitle = lines[line].substring(12)
         }
-
+        
         //Gets event id for event link
         if(line == 0){
-         eventLink = "https://25live.collegenet.com/pro/muhlenberg#!/home/event/" + (lines[line].substring((lines[line].indexOf("=")+1),lines[line].indexOf(":")))+"/details"
+         eventLink = "https://25live.collegenet.com/pro/" + subDirectory25Live + "#!/home/event/" + (lines[line].substring((lines[line].indexOf("=")+1),lines[line].indexOf(":")))+"/details"
         }
         
         //Gets Event type
