@@ -5,7 +5,7 @@ function getRequirements(eventID) {
   let jsonLink = `https://25live.collegenet.com/25live/data/muhlenberg/run/event/detail/evdetail.json?event_id=${eventID}&caller=pro-EvdetailDao.get`
   let json = UrlFetchApp.fetch(jsonLink)
   let returnArray = []
-  json = JSON.parse(String(json).split("\n")[1])
+  json = JSON.parse(String(json))
   let requirements = json['evdetail']['defn']['panel'][6]['item'][0]
   const tags = /<\/?\w+ ?\/?>/g
   let description
